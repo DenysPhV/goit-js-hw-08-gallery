@@ -28,3 +28,7 @@ document.getElementById('buttons').addEventListener('click', handler) прикр
 потребность только в одном обработчике.
 
 https://habr.com/ru/post/512782/
+
+
+### API IntersectionObserver и ленивая загрузка изображений
+https://habr.com/ru/company/ruvds/blog/453586/

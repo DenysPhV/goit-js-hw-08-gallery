@@ -21,8 +21,7 @@ document.getElementById('buttons').addEventListener('click', handler) прикр
     //...
     .addEventListener('click', event => { if (event.target.className === 'buttonClass') {console.log('Click!'); } });
 
-Кстати, на элемент к которому прикреплён сработавший обработчик события, указывает
-event.currentTarget. В нашем примере event.currentTarget указывает на элемент <div id="buttons">.
+Кстати, на элемент к которому прикреплён сработавший обработчик события, указывает event.currentTarget. В нашем примере event.currentTarget указывает на элемент <div id="buttons">.
 
 Теперь вы можете увидеть преимущества шаблона делегирования событий: вместо прикрепления
 обработчиков к каждой кнопке, как это было сделано раньше, благодаря делегированию событий, остаётся

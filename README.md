@@ -15,7 +15,8 @@ document.getElementById('buttons').addEventListener('click', handler) прикр
 Когда кнопка нажата, функция-обработчик вызывается с аргументом: объектом event. Свойство event.target обращается к
 элементу, на котором произошло событие (в нашем примере этот элемент – кнопка):
 
-  // ... .addEventListener('click', event => { if (event.target.className === 'buttonClass') {console.log('Click!'); } });
+    //...
+    .addEventListener('click', event => { if (event.target.className === 'buttonClass') {console.log('Click!'); } });
 
 Кстати, на элемент к которому прикреплён сработавший обработчик события, указывает
 event.currentTarget. В нашем примере event.currentTarget указывает на элемент <div id="buttons">.

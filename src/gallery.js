@@ -16,41 +16,42 @@ const gallery = galleryItems.map(({ preview, original, description }, index) => 
 const modalImgRef = document.querySelector('.lightbox__image');
 const modalRef = document.querySelector('.lightbox');
 
-const onOpenModalClick = e => {
-  e.preventDefault();
+const onOpenModalClick = event => {
+  event.preventDefault();
 
-  if (e.target.localName === 'img') {
-    modalImgRef.src = e.target.dataset.source;
-    modalImgRef.alt = e.target.alt;
-    modalImgRef.dataset.index = e.target.dataset.index;
+  if (event.target.localName === 'img') {
+    modalImgRef.src = event.target.dataset.source;
+    modalImgRef.alt = event.target.alt;
+    modalImgRef.dataset.index = event.target.dataset.index;
 
     modalRef.classList.add('is-open');
   }
 };
 
-const onKeyboardClick = e => {
-  if (e.key === 'Escape') {
+const onKeyboardClick = event => {
+  if (event.key === 'Escape') {
     modalRef.classList.remove('is-open');
   }
 };
 
-const onCloseModalClick = e => {
-  if (e.target.localName !== 'img') {
+const onCloseModalClick = event => {
+  if (event.target.localName !== 'img') {
     modalRef.classList.remove('is-open');
     modalImgRef.src = '';
     modalImgRef.alt = '';
   }
 };
 
+// сделай пременню REF
 itemGalleryEl.addEventListener('click', onOpenModalClick);
 window.addEventListener('keyup', onKeyboardClick);
 window.addEventListener('click', onCloseModalClick);
 
-window.addEventListener('keydown', e => {
-  if (e.code === 'ArrowLeft') {
+window.addEventListener('keydown', event => {
+  if (event.code === 'ArrowLeft') {
     onArrowLeft();
   }
-  if (e.code === 'ArrowRight') {
+  if (event.code === 'ArrowRight') {
     onArrowRight();
   }
 });

@@ -1,4 +1,5 @@
 import { galleryItems } from './app.js';
+// event - событие
 
 const itemGalleryEl = document.querySelector('.js-gallery');
 const gallery = galleryItems.map(({ preview, original, description }, index) => {
@@ -16,6 +17,7 @@ const gallery = galleryItems.map(({ preview, original, description }, index) => 
 const modalImgRef = document.querySelector('.lightbox__image');
 const modalRef = document.querySelector('.lightbox');
 
+// Делегирование
 const onOpenModalClick = event => {
   event.preventDefault();
 
@@ -26,12 +28,9 @@ const onOpenModalClick = event => {
 
     modalRef.classList.add('is-open');
   }
-};
 
-const onKeyboardClick = event => {
-  if (event.key === 'Escape') {
-    modalRef.classList.remove('is-open');
-  }
+  window.addEventListener('keyup', onKeyboardClick);
+  window.addEventListener('click', onCloseModalClick);
 };
 
 const onCloseModalClick = event => {
@@ -42,15 +41,21 @@ const onCloseModalClick = event => {
   }
 };
 
-// сделай пременню REF
+const onKeyboardClick = event => {
+  if (event.key === 'Escape') {
+    modalRef.classList.remove('is-open');
+    modalRef.src = '';
+    modalRef.alt = '';
+  }
+};
+
 itemGalleryEl.addEventListener('click', onOpenModalClick);
-window.addEventListener('keyup', onKeyboardClick);
-window.addEventListener('click', onCloseModalClick);
 
 window.addEventListener('keydown', event => {
   if (event.code === 'ArrowLeft') {
     onArrowLeft();
   }
+
   if (event.code === 'ArrowRight') {
     onArrowRight();
   }
@@ -80,3 +85,5 @@ function newSrc(index, step = 0) {
   modalImgRef.dataset.index = `${index + step}`;
   modalImgRef.src = galleryItems[index + step].original;
 }
+
+// ============================================================

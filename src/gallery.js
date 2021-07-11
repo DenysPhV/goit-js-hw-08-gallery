@@ -3,7 +3,6 @@ import { galleryItems } from './app.js';
 
 const itemGalleryEl = document.querySelector('.js-gallery');
 const gallery = galleryItems.map(({ preview, original, description }, index) => {
-  //   console.log(element);
   itemGalleryEl.insertAdjacentHTML(
     'afterbegin',
     `<li class="gallery__item">
@@ -17,7 +16,6 @@ const gallery = galleryItems.map(({ preview, original, description }, index) => 
 const modalImgRef = document.querySelector('.lightbox__image');
 const modalRef = document.querySelector('.lightbox');
 
-// Делегирование
 const onOpenModalClick = event => {
   event.preventDefault();
 
@@ -35,19 +33,27 @@ const onOpenModalClick = event => {
 
 const onCloseModalClick = event => {
   if (event.target.localName !== 'img') {
-    modalRef.classList.remove('is-open');
-    modalImgRef.src = '';
-    modalImgRef.alt = '';
+    clearAttributesClick();
   }
+
+  window.removeEventListener('click', onOpenModalClick);
 };
 
 const onKeyboardClick = event => {
   if (event.key === 'Escape') {
-    modalRef.classList.remove('is-open');
-    modalRef.src = '';
-    modalRef.alt = '';
+    clearAttributesClick();
   }
+
+  window.removeEventListener('keyup', onOpenModalClick);
 };
+
+function clearAttributesClick() {
+  modalRef.classList.remove('is-open');
+  modalImgRef.src = '';
+  modalImgRef.alt = '';
+  modalRef.src = '';
+  modalRef.alt = '';
+}
 
 itemGalleryEl.addEventListener('click', onOpenModalClick);
 

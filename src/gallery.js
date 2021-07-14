@@ -18,7 +18,7 @@ const modalRef = document.querySelector('.lightbox');
 
 const onOpenModalClick = event => {
   event.preventDefault();
-  console.log('я запистил модалку!!!');
+  console.log('я запустил модалку!!!');
   if (event.target.localName === 'img') {
     modalImgRef.src = event.target.dataset.source;
     modalImgRef.alt = event.target.alt;
@@ -44,7 +44,7 @@ const onKeyboardClick = event => {
 };
 
 function clearAttributesClick() {
-  // console.log('убрал слушателя');
+  console.log('убрал слушателя');
   modalRef.classList.remove('is-open');
   modalImgRef.src = '';
   modalImgRef.alt = '';

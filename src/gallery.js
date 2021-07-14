@@ -18,7 +18,7 @@ const modalRef = document.querySelector('.lightbox');
 
 const onOpenModalClick = event => {
   event.preventDefault();
-
+  console.log('я запистил модалку!!!');
   if (event.target.localName === 'img') {
     modalImgRef.src = event.target.dataset.source;
     modalImgRef.alt = event.target.alt;
@@ -35,24 +35,22 @@ const onCloseModalClick = event => {
   if (event.target.localName !== 'img') {
     clearAttributesClick();
   }
-
-  window.removeEventListener('click', onOpenModalClick);
 };
 
 const onKeyboardClick = event => {
   if (event.key === 'Escape') {
     clearAttributesClick();
   }
-
-  window.removeEventListener('keyup', onOpenModalClick);
 };
 
 function clearAttributesClick() {
+  // console.log('убрал слушателя');
   modalRef.classList.remove('is-open');
   modalImgRef.src = '';
   modalImgRef.alt = '';
-  modalRef.src = '';
-  modalRef.alt = '';
+
+  window.removeEventListener('keyup', onKeyboardClick);
+  window.removeEventListener('click', onCloseModalClick);
 }
 
 itemGalleryEl.addEventListener('click', onOpenModalClick);

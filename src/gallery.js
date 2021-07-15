@@ -15,10 +15,11 @@ const gallery = galleryItems.map(({ preview, original, description }, index) => 
 
 const modalImgRef = document.querySelector('.lightbox__image');
 const modalRef = document.querySelector('.lightbox');
+const bodyRef = document.querySelector('body');
 
 const onOpenModalClick = event => {
   event.preventDefault();
-  console.log('я запустил модалку!!!');
+
   if (event.target.localName === 'img') {
     modalImgRef.src = event.target.dataset.source;
     modalImgRef.alt = event.target.alt;
@@ -27,35 +28,29 @@ const onOpenModalClick = event => {
     modalRef.classList.add('is-open');
   }
 
-  window.addEventListener('keyup', onKeyboardClick);
-  window.addEventListener('click', onCloseModalClick);
+  bodyRef.addEventListener('click', onCloseModalClick);
+  bodyRef.addEventListener('keyup', onKeyboardClick);
+  bodyRef.addEventListener('keydown', onFlippingClick);
 };
 
 const onCloseModalClick = event => {
   if (event.target.localName !== 'img') {
-    clearAttributesClick();
+    modalRef.classList.remove('is-open');
+    onOpenModalClick(event);
   }
 };
 
 const onKeyboardClick = event => {
-  if (event.key === 'Escape') {
-    clearAttributesClick();
+  if (event.keyCode !== 27) {
+    return;
   }
-};
-
-function clearAttributesClick() {
-  console.log('убрал слушателя');
   modalRef.classList.remove('is-open');
-  modalImgRef.src = '';
-  modalImgRef.alt = '';
-
-  window.removeEventListener('keyup', onKeyboardClick);
-  window.removeEventListener('click', onCloseModalClick);
-}
+  onOpenModalClick(event);
+};
 
 itemGalleryEl.addEventListener('click', onOpenModalClick);
 
-window.addEventListener('keydown', event => {
+const onFlippingClick = event => {
   if (event.code === 'ArrowLeft') {
     onArrowLeft();
   }
@@ -63,7 +58,7 @@ window.addEventListener('keydown', event => {
   if (event.code === 'ArrowRight') {
     onArrowRight();
   }
-});
+};
 
 function onArrowLeft() {
   let index = +modalImgRef.dataset.index;

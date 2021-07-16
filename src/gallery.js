@@ -2,7 +2,7 @@ import { galleryItems } from './app.js';
 // event - событие
 
 const itemGalleryEl = document.querySelector('.js-gallery');
-const gallery = galleryItems.map(({ preview, original, description }, index) => {
+galleryItems.map(({ preview, original, description }, index) => {
   itemGalleryEl.insertAdjacentHTML(
     'afterbegin',
     `<li class="gallery__item">
@@ -15,7 +15,6 @@ const gallery = galleryItems.map(({ preview, original, description }, index) => 
 
 const modalImgRef = document.querySelector('.lightbox__image');
 const modalRef = document.querySelector('.lightbox');
-const bodyRef = document.querySelector('body');
 
 const onOpenModalClick = event => {
   event.preventDefault();
@@ -27,62 +26,58 @@ const onOpenModalClick = event => {
 
     modalRef.classList.add('is-open');
   }
-
-  bodyRef.addEventListener('click', onCloseModalClick);
-  bodyRef.addEventListener('keyup', onKeyboardClick);
-  bodyRef.addEventListener('keydown', onFlippingClick);
 };
 
 const onCloseModalClick = event => {
   if (event.target.localName !== 'img') {
-    modalRef.classList.remove('is-open');
-    onOpenModalClick(event);
+    clearClasslist();
   }
 };
 
 const onKeyboardClick = event => {
-  if (event.keyCode !== 27) {
-    return;
+  if (event.key === 'Escape') {
+    clearClasslist();
   }
-  modalRef.classList.remove('is-open');
-  onOpenModalClick(event);
 };
+
+function clearClasslist() {
+  modalRef.classList.remove('is-open');
+  modalImgRef.src = '';
+  modalImgRef.alt = '';
+}
 
 itemGalleryEl.addEventListener('click', onOpenModalClick);
+itemGalleryEl.addEventListener('keyup', onKeyboardClick);
+modalRef.addEventListener('click', onCloseModalClick);
 
+// navigation gallery in on place
 const onFlippingClick = event => {
-  if (event.code === 'ArrowLeft') {
-    onArrowLeft();
+  if (event.key === 'ArrowLeft') {
+    let index = +modalImgRef.dataset.index;
+
+    if (index === 0) {
+      newSrc(galleryItems.length - 1);
+      return;
+    }
+    newSrc(index, -1);
   }
 
-  if (event.code === 'ArrowRight') {
-    onArrowRight();
+  if (event.key === 'ArrowRight') {
+    let index = +modalImgRef.dataset.index;
+
+    if (index === galleryItems.length - 1) {
+      newSrc(0);
+      return;
+    }
+    newSrc(index, 1);
+  }
+
+  function newSrc(index, step = 0) {
+    modalImgRef.dataset.index = `${index + step}`;
+    modalImgRef.src = galleryItems[index + step].original;
   }
 };
 
-function onArrowLeft() {
-  let index = +modalImgRef.dataset.index;
-
-  if (index === 0) {
-    newSrc(galleryItems.length - 1);
-    return;
-  }
-  newSrc(index, -1);
-}
-
-function onArrowRight() {
-  let index = +modalImgRef.dataset.index;
-
-  if (index === galleryItems.length - 1) {
-    newSrc(0);
-    return;
-  }
-  newSrc(index, 1);
-}
-
-function newSrc(index, step = 0) {
-  modalImgRef.dataset.index = `${index + step}`;
-  modalImgRef.src = galleryItems[index + step].original;
-}
+itemGalleryEl.addEventListener('keydown', onFlippingClick);
 
 // ============================================================
